@@ -1,0 +1,12 @@
+/* assets/css/index.css — archivo “gateway” con imports */
+
+/* 1) Fuente Montserrat (100–900) */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap");
+
+/* 2) Tus estilos reales */
+@import url("./styles.css");   /* si index.css y styles.css están en la MISMA carpeta */
+
+/* Si styles.css estuviera en otra ruta, usa la que toque:
+   @import url("../styles.css");            <- ejemplo
+   @import url("./subcarpeta/styles.css");  <- ejemplo
+*/
