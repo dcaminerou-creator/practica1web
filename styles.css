@@ -1,0 +1,297 @@
+/* ===== Base ===== */
+:root{
+  --text:#0a0a0a;
+  --pink:#ff37de;
+  --radius:14px;
+  --shadow:0 10px 24px rgba(0,0,0,.12), 0 1px 0 rgba(0,0,0,.55);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:"Montserrat", system-ui, -apple-system, Arial, sans-serif;
+  color:var(--text);
+  background: radial-gradient(65% 45% at 50% 50%, #ececec 0%, #f4f4f4 40%, #fafafa 70%, #ffffff 100%);
+}
+/* === NAV: tu mismo HTML, pero fijo encima del vídeo === */
+.sticky-menu{
+  position: fixed;          /* antes: sticky */
+  top: 0;
+  left: 0; right: 0;
+  z-index: 1000;            /* por encima del header y del vídeo */
+  padding-block: 14px;
+  /* Fondo opcional para legibilidad sobre vídeo: ajusta o comenta si no lo quieres */
+ 
+}
+
+/* Conserva tus pills tal cual */
+.sticky-menu ul{
+  margin:0 auto;
+  padding:0 16px;
+  list-style:none;
+  display:flex;
+  gap:18px;
+  justify-content:center;
+  align-items:center;
+  width:min(900px,100%);
+}
+.pill{
+  display:inline-block;
+  padding:12px 22px;
+  border-radius:var(--radius);
+  background:#fff;
+  color:var(--text);
+  text-decoration:none;
+  font-weight:600;
+  border:1px solid #0a0a0a;
+  box-shadow:var(--shadow);
+  transition: transform .12s ease, background .2s ease, color .2s ease, border-color .2s ease;
+}
+.pill:hover,.pill:focus-visible{
+  background:var(--pink);
+  color:#fff;
+  border-color:#000000;
+  transform: translateY(-2px);
+  outline:none;
+}
+
+/* === HEADER pantalla completa con vídeo de fondo === */
+.hero{
+  position: relative;
+  height: 100vh;            /* ocupa toda la ventana al cargar */
+  min-height: 520px;        /* por si hay pantallas muy bajas */
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.video-bg{
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+.video-bg iframe{
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  border: 0;
+  pointer-events: none;     /* el vídeo no bloquea clics en el menú */
+}
+/* capa sutil para mejorar contraste del texto sobre el vídeo */
+.hero::after{
+  content:"";
+  position:absolute; inset:0; z-index:1;
+  background: linear-gradient(180deg, rgba(0,0,0,.28) 0%, rgba(0,0,0,.10) 60%, rgba(0,0,0,.35) 100%);
+}
+
+.hero-inner{
+  position: relative;
+  z-index: 2;               /* por encima del vídeo y del overlay */
+  width:min(1200px,92vw);
+  margin-inline:auto;
+  display:grid;
+  align-content:start;
+  row-gap: clamp(24px, 5vw, 80px);
+  color:#fff;
+  text-shadow: 0 2px 12px rgba(0,0,0,.55);
+}
+
+/* Tu tipografía y layout existentes (puedes mantener los que ya tenías) */
+.title-align{ display:grid; grid-template-columns:max-content max-content; column-gap:0; row-gap:clamp(6px,1.2vw,16px); }
+.t1,.t2{ margin:0; font-weight:600; line-height:.95; font-size:clamp(42px,9vw,144px); }
+.t1{ grid-column:1; grid-row:1; justify-self:end; }
+.t2{ grid-column:2; grid-row:2; justify-self:start; }
+.hero-meta{ display:grid; grid-template-columns:1fr auto; align-items:end; margin-top: 7rem; }
+.hero-caption{ margin:0; font-weight:600; text-transform:uppercase; letter-spacing:.6px; font-size:clamp(12px,1.4vw,16px); }
+.hero-year{ margin:0; font-weight:500; font-size:clamp(28px,5vw,64px); }
+
+/* scroll suave al pulsar el menú (si no lo tenías ya) */
+html { scroll-behavior: smooth; }
+
+/* ===== Card ===== */
+.web-card{ font-family:'Montserrat', sans-serif; color:#000; background:linear-gradient(135deg,#f7f7f7 0%,#ededed 100%); border:2px solid #000; border-radius:35px; padding:2rem 3rem; margin:3rem auto; max-width:1200px; position:relative; }
+.web-card-container{ display:grid; grid-template-columns:1fr 1fr; grid-template-areas:"name analysis" "images analysis" "footer footer"; gap:1.5rem 2rem; }
+
+.web-name{ grid-area:name; align-self:start; font-weight:500; font-size:xx-large; }
+.web-name a{ text-decoration:none; color:#000; transition:color .3s ease; }
+.web-name a:hover{ color:var(--pink); }
+
+/* ===== IMÁGENES (iframes sin scroll + hover) ===== */
+.web-images{
+  grid-area:images;
+  display:flex;
+  flex-direction:column;
+  gap:1rem;
+  align-items:stretch;
+  justify-content:center;
+}
+.web-images iframe {
+
+  display: block;
+  margin-inline: auto;
+  border: 1px solid #000;
+  border-radius: 10px;
+  background: none;     /* sin fondo */
+  overflow: hidden;     /* elimina cualquier resto de scroll interno */
+  transition: transform .3s ease;
+}
+.web-images iframe:hover {
+  transform: scale(1.2);
+}
+
+
+/* ===== Análisis ===== */
+.web-analysis{ grid-area:analysis; display:flex; flex-direction:column; gap:.5rem; justify-content:center; }
+.web-analysis p.analysis-title{ font-weight:400; margin-bottom:.5rem; font-size:x-large; }
+.web-analysis details{ border-bottom:1px solid #000; padding:.4rem 0; }
+.web-analysis summary{ cursor:pointer; font-weight:400; transition:color .3s ease; }
+.web-analysis summary:hover{ color:var(--pink); }
+.web-analysis p{ margin-top:.3rem; font-weight:300; line-height:1.4; }
+
+/* ===== Footer ===== */
+.web-footer{ grid-area:footer; display:flex; justify-content:space-between; align-items:center; margin-top:1rem; }
+.web-link{ text-decoration:none; color:#000; font-weight:400; transition:color .3s ease; }
+.web-link:hover{ color:var(--pink); }
+.web-number{ font-weight: 300;
+    font-size: xx-large; }
+
+/* Borde doble */
+.web-card::before{ content:""; position:absolute; inset:0; border-radius:35px; border:2px solid #000; pointer-events:none; }
+
+
+.footer {
+  background: linear-gradient(180deg, #fff 0%, #f4f4f4 100%);
+  text-align: center;
+  padding: 5rem 1rem;
+  border-top: 2px solid #000;
+}
+
+.footer-home {
+  display: inline-block;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 2rem;
+  letter-spacing: 1px;
+  color: #000;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  margin-top: 4rem;
+}
+
+.footer-home:hover {
+  color: var(--pink);
+}
+
+.footer-text {
+  margin-top: 5.5rem;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #000;
+}
+
+
+
+/* ===== Responsive ===== */
+/* =========================
+   TABLET (≤ 1024px)
+========================= */
+@media (max-width:1024px){
+
+  /* --- MENÚ: sin fondo --- */
+  .sticky-menu{
+    background: transparent !important;
+    backdrop-filter: none !important;
+    border: 0;
+    box-shadow: none;
+  }
+
+  /* --- HERO + VÍDEO: siempre llena pantalla --- */
+  .hero{
+    height: 100vh;      /* o 100svh si prefieres: ver bloque móvil */
+    min-height: 560px;
+    overflow: hidden;
+  }
+  .video-bg{ position:absolute; inset:0; z-index:0; }
+  .video-bg iframe{
+    position:absolute; inset:0;
+    width:100%; height:100%;     /* llena todo aunque se deforme */
+    border:0;
+    transform:none;              /* sin centrar/recortar: ocupa todo */
+  }
+  .hero-inner{ position:relative; z-index:2; }
+
+  /* --- IMÁGENES/IFRAMES: mismo tamaño + marco gris visible --- */
+  .web-images{
+    align-items: center;
+    gap: 1rem;
+  }
+
+  /* Ajusta UNA sola vez el tamaño de la “ventana” de las capturas */
+  :root{ --cap-w: 92%; --cap-ratio: 16/9; } /* cambia 16/9 por 4/3 si te encaja mejor */
+
+  .web-images iframe,
+  .web-images img{
+    width: var(--cap-w);
+    aspect-ratio: var(--cap-ratio);
+    height: auto;              /* lo mantiene consistente */
+    display: block;
+    margin-inline: auto;
+    background: #cfcfcf;       /* gris visible alrededor si “no llena” */
+    border: 1px solid #000;
+    border-radius: 10px;
+    object-fit: contain;       /* para <img>; los iframes muestran marco gris */
+  }
+}
+
+/* =========================
+   MÓVIL (≤ 640px)
+========================= */
+@media (max-width:640px){
+
+  /* --- MENÚ: sin fondo, compacto --- */
+  .sticky-menu{
+    background: transparent !important;
+    backdrop-filter: none !important;
+    border: 0;
+    box-shadow: none;
+    padding-block: 8px;
+  }
+  .sticky-menu ul{ gap: 10px; flex-wrap: wrap; }
+
+  /* --- HERO + VÍDEO: SIEMPRE LLENO AUNQUE SE ROMPA --- */
+  .hero{
+    height: 100svh;   /* usa “small viewport” para móviles con barras */
+    min-height: 520px;
+    overflow: hidden;
+  }
+  .video-bg{ position:absolute; inset:0; z-index:0; }
+  .video-bg iframe{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    border:0;
+    transform:none;   /* que rellene TODO, sin letterboxing */
+  }
+  .hero-inner{ position:relative; z-index:2; }
+
+  /* --- IMÁGENES/IFRAMES: mismo tamaño y marco gris --- */
+  :root{ --cap-w: 100%; --cap-ratio: 4/3; } /* móvil: un poco más “alto” */
+
+  .web-images iframe,
+  .web-images img{
+    width: var(--cap-w);
+    aspect-ratio: var(--cap-ratio);
+    height: auto;
+    margin-inline: 0;
+    background: #cfcfcf;     /* gris visible */
+    border: 1px solid #000;
+    border-radius: 8px;
+    object-fit: contain;     /* <img> lo respeta; en iframe queda la “ventana” gris */
+    transition: none;        /* sin hover en móvil */
+  }
+}
